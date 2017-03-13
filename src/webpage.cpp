@@ -31,6 +31,7 @@
 #include "webpage.h"
 
 #include <math.h>
+// #include <iostream>
 
 #include <QApplication>
 #include <QContextMenuEvent>
@@ -58,6 +59,7 @@
 #include <QUuid>
 #include <QUrl>
 #include <QNetworkProxy>
+#include <QPdfBookmarkModel>
 
 #include "phantom.h"
 #include "networkaccessmanager.h"
@@ -1160,6 +1162,7 @@ qreal printMargin(const QVariantMap& map, const QString& key)
 
 bool WebPage::renderPdf(const QString& fileName)
 {
+	// std::cout << "Rendering PDF";
     QPrinter printer;
     printer.setOutputFormat(QPrinter::PdfFormat);
     printer.setOutputFileName(fileName);
@@ -1256,6 +1259,9 @@ bool WebPage::renderPdf(const QString& fileName)
     }
 
     printer.setPageMargins(marginLeft, marginTop, marginRight, marginBottom, QPrinter::Point);
+
+	QPdfBookmarkModel *bookmarkModel = new QPdfBookmarkModel(this);
+	bookmarkModel->setDocument(m_customWebPage);
 
     m_mainFrame->print(&printer, this);
     return true;
